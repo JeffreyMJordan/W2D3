@@ -12,6 +12,7 @@ class Game
   end
 
   def play_round 
+    zero_cards
     round_players = @players.dup 
     deal 
     render
@@ -23,6 +24,12 @@ class Game
     winner = determine_winner(round_players)
     winner.update_pot(pot)
     remove_broke_players
+  end
+
+  def zero_cards 
+    @players.each do |player| 
+      player.hand = Hand.new
+    end
   end
 
   def determine_winner(players)
@@ -81,6 +88,7 @@ class Game
   def get_bets(players, round_ante=0 )
     no_raises = false
     round_total = 0 
+    puts "Ante: #{round_ante}"
     until no_raises 
       #byebug
       no_raises = true 
@@ -93,6 +101,7 @@ class Game
           player.update_pot(round_ante*-1)
           round_ante += amount 
           round_total += round_ante
+          puts "Ante: #{round_ante}"
         elsif option == "c" 
           player.update_pot(round_ante*-1)
           round_total += round_ante
@@ -120,19 +129,11 @@ class Game
       player.hand.cards.each do |card| 
         str += card.to_s + " "
       end
-      str += "\n"
+      str += "#{player.name}'s pot: #{player.pot}\n"
     end
     puts str 
     str 
   end
-
-
-
-=begin 
-  How the F do I handle raises? 
-    have a loop, until(no_raises?) 
-    set no_raises? to false if someone raises 
-=end
 
 end
 

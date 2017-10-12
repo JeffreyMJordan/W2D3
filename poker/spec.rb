@@ -312,6 +312,7 @@ describe "game" do
       game = Game.new(deck, arr)
       expect(game.get_bets([john_double, jack_double], 10)).to eq(10)
     end
+
   end
 
 
@@ -323,6 +324,7 @@ describe "game" do
     end
 
   end
+
 
 end
 
